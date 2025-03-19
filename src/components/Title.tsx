@@ -18,6 +18,8 @@ export default function Title() {
       : 'Currency Converter';
 
   return (
-    <h1 className="font-bold my-3 text-center text-3xl">{formatedTitle}</h1>
+    <h1 className="max-w-full overflow-x-hidden font-bold my-3 text-center text-3xl">
+      {formatedTitle}
+    </h1>
   );
 }

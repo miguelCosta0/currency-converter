@@ -50,6 +50,11 @@ export const amountOfCurrencySlice = createSlice({
         (Number(newAmount) * exchange).toFixed(4)
       );
 
+      if (otherNewAmount === 'Infinity') {
+        state.amount1 = state.amount2 = '';
+        return;
+      }
+
       state[amountKey] = newAmount;
       state[otherAmountKey] = otherNewAmount;
     },
