@@ -1,6 +1,6 @@
 # Currency Converter
 
-![Home page screenshot](/images/HomePageScreenshot.png)
+![Home page screenshot](/public/images/HomePageScreenshot.png)
 
 - download the project
 
