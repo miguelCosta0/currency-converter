@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useAppSelector } from '@/lib/hooks';
-import { FlagSrcsState } from '@/lib/features/flagSrcs/flagSrcsSlice';
+import { CurrenciesState } from '@/lib/features/currencies/types';
 
 type CurrencyFlagProps = {
   idNumber: number;
@@ -9,7 +9,8 @@ type CurrencyFlagProps = {
 export default function CurrencyFlag({ idNumber }: CurrencyFlagProps) {
   const flagSize = 30;
   const flagSrc = useAppSelector(
-    (state) => state.flagSrcs[`src${idNumber}` as keyof FlagSrcsState]
+    (state) =>
+      state.currencies[`currency${idNumber}` as keyof CurrenciesState].flagSrc
   );
 
   return (

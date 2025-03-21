@@ -4,7 +4,7 @@
   --background: #155c96;
   --foreground: #000000;
   --main: #155c96;
-  --main-dark: #033a66;
+  --main-dark: #022546;
 }
 
 @theme {
@@ -13,19 +13,25 @@
   --color-main: var(--main);
   --color-main-dark: var(--main-dark);
 
+  --breakpoint-md: 54rem;
+
   --shadow-sm: 0 0 3px var(--main);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --spacing: 5px;
-}
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --animate-rotation: rotation 0.4s linear infinite;
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
-} */
+}
 
 body {
   background: var(--color-background);

@@ -1,28 +1,36 @@
+import getDateToday from '@/utils/getDateToday';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface exchangeState {
+export interface ExchangeState {
   exchange: number | undefined;
+  date: string;
 }
 
-type setexchangePayload = PayloadAction<{
+type SetExchangePayload = PayloadAction<{
   newExchange: number;
 }>;
 
-const initialState: exchangeState = {
+type SetExchangeDatePayload = PayloadAction<string>;
+
+const initialState: ExchangeState = {
   exchange: undefined,
+  date: getDateToday(),
 };
 
 export const exchangeSlice = createSlice({
   name: 'exchange',
   initialState: initialState,
   reducers: {
-    setExchange: (state, action: setexchangePayload) => {
+    setExchange: (state, action: SetExchangePayload) => {
       state.exchange = action.payload.newExchange;
+    },
+    setExchangeDate: (state, action: SetExchangeDatePayload) => {
+      state.date = action.payload;
     },
   },
 });
 
-export const { setExchange } = exchangeSlice.actions;
+export const { setExchange, setExchangeDate } = exchangeSlice.actions;
 
 export default exchangeSlice.reducer;

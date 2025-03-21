@@ -1,9 +1,7 @@
 import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import {
-  amountOfCurrencyState,
-  setAmountOfCurrency,
-} from '@/lib/features/amountOfCurrency/amountOfCurrencySlice';
+import { setAmountOfCurrency } from '@/lib/features/currencies/currenciesSlice';
+import { CurrenciesState } from '@/lib/features/currencies/types';
 import cleanInputNumber from '@/utils/cleanInputNumber';
 
 type CurrencyAmountProps = {
@@ -14,11 +12,11 @@ export default function AmountOfCurrencyInput({
   idNumber,
 }: CurrencyAmountProps) {
   const dispatch = useAppDispatch();
+  const { exchange } = useAppSelector((state) => state.exchange);
   const amountOfCurrency = useAppSelector(
     (state) =>
-      state.amountOfCurrency[`amount${idNumber}` as keyof amountOfCurrencyState]
+      state.currencies[`currency${idNumber}` as keyof CurrenciesState].amount
   );
-  const exchange = useAppSelector((state) => state.exchange.exchange);
 
   return (
     <input
@@ -28,26 +26,26 @@ export default function AmountOfCurrencyInput({
       onChange={handleAmountOfCurrencyChange}
       onBlur={handleBlur}
       className="w-full mt-4 p-1 border-2 border-[rgb(160,160,160)] rounded-md
-      focus:outline-0 focus:border-main-dark focus:shadow-sm text-2xl "
+      focus:outline-0 focus:border-main focus:shadow-sm text-2xl "
     />
   );
 
-  async function handleAmountOfCurrencyChange(
-    e: ChangeEvent<HTMLInputElement>
-  ) {
+  function handleAmountOfCurrencyChange(e: ChangeEvent<HTMLInputElement>) {
+    if (!exchange) return;
+
     const newAmount = e.target.value;
-    if (exchange)
-      dispatch(setAmountOfCurrency({ idNumber, newAmount, exchange }));
+    dispatch(setAmountOfCurrency({ idNumber, newAmount, exchange }));
   }
 
   function handleBlur() {
-    if (exchange)
-      dispatch(
-        setAmountOfCurrency({
-          idNumber,
-          newAmount: cleanInputNumber(amountOfCurrency),
-          exchange,
-        })
-      );
+    if (!exchange) return;
+
+    dispatch(
+      setAmountOfCurrency({
+        idNumber,
+        newAmount: cleanInputNumber(amountOfCurrency),
+        exchange,
+      })
+    );
   }
 }

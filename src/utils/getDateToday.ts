@@ -1,6 +1,6 @@
 import convertToTwoDigits from './convertToTwoDigits';
 
-export default function getFullDate(): string {
+export default function getDateToday(): string {
   const today = new Date();
   const year = today.getFullYear();
   const month = convertToTwoDigits(today.getMonth());

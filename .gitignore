@@ -44,3 +44,5 @@ next-env.d.ts
 .editorconfig
 .prettierrc.js
 eslint.config.mjs
+
+TODO.txt

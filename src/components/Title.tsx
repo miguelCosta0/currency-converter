@@ -2,19 +2,21 @@ import { useAppSelector } from '@/lib/hooks';
 import cleanInputNumber from '@/utils/cleanInputNumber';
 
 export default function Title() {
-  const currencies = useAppSelector((state) => state.currencies.obj);
-  const { currency1, currency2 } = useAppSelector(
-    (state) => state.currencyCodes
+  const { currencies: allCurrencies } = useAppSelector(
+    (state) => state.allCurrencies
   );
-  const amountOfCurrency1 = useAppSelector(
-    (state) => state.amountOfCurrency.amount1
-  );
+  const { currency1, currency2 } = useAppSelector((state) => state.currencies);
+  const [code1, code2, amount1] = [
+    currency1.code,
+    currency2.code,
+    currency1.amount,
+  ];
 
   const formatedTitle =
-    currencies && currency1 && currency2 && amountOfCurrency1
-      ? `${cleanInputNumber(amountOfCurrency1)} ${
-          currencies[currency1].name
-        } to ${currencies[currency2].name}`
+    allCurrencies && code1 && code2 && amount1
+      ? `${cleanInputNumber(amount1)} ${allCurrencies[code1].name} to ${
+          allCurrencies[code2].name
+        }`
       : 'Currency Converter';
 
   return (

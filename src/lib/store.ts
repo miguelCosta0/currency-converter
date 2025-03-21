@@ -1,19 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import flagSrcsReducer from './features/flagSrcs/flagSrcsSlice';
-import currencyCodesReducer from './features/currencyCodes/currencyCodesSlice';
+import allCurrenciesReducer from './features/allCurrencies/allCurrenciesSlice';
 import currenciesReducer from './features/currencies/currenciesSlice';
-import amountOfCurrencyReducer from './features/amountOfCurrency/amountOfCurrencySlice';
 import exchangeReducer from './features/exchange/exchangeSlice';
+import loadingReducer from './features/loading/loading';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      flagSrcs: flagSrcsReducer,
-      currencyCodes: currencyCodesReducer,
+      allCurrencies: allCurrenciesReducer,
       currencies: currenciesReducer,
-      amountOfCurrency: amountOfCurrencyReducer,
       exchange: exchangeReducer,
+      loading: loadingReducer,
     },
   });
 };

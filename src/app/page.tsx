@@ -1,54 +1,52 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useAppDispatch } from '@/lib/hooks';
-import { CurrencyWithFlags } from '@/types/Currency';
-import { setCurrencies } from '@/lib/features/currencies/currenciesSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { setAllCurrencies } from '@/lib/features/allCurrencies/allCurrenciesSlice';
+import { setLoading } from '@/lib/features/loading/loading';
+import fetchCurrencies from '@/data/fetchCurrencies';
 
 import Title from '@/components/Title';
 import CurrencyContainer from '@/components/CurrencyContainer';
 import CurrencyFlag from '@/components/CurrencyFlag';
 import ToggleCurrencyButton from '@/components/ToggleCurrencyButton';
+import DateInput from '@/components/DateInput';
+import LoadingIcon from '@/components/LoadingIcon';
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.loading);
 
   useEffect(() => {
     (async () => {
-      dispatch(setCurrencies(await getCurrencies()));
+      dispatch(setLoading(true));
+      dispatch(setAllCurrencies(await fetchCurrencies()));
+      dispatch(setLoading(false));
     })();
   }, [dispatch]);
 
   return (
-    <div className="max-w-4xl h-[80vh] bg-white my-10 mx-auto p-2 rounded-xl">
+    <div className="max-w-4xl min-h-[80vh] bg-white my-10 mx-auto p-3 rounded-xl">
       <Title />
 
-      <div className="flex flex-row justify-between items-center w-[90%] mx-auto mt-16">
+      <div
+        className="mt-16 mb-8 mx-auto w-[90%] flex flex-col gap-3 justify-between
+        items-center md:flex-row md:*:flex-row md:*:gap-2"
+      >
         <CurrencyContainer idNumber={1} />
 
-        <div className="flex flex-row justify-between items-center max-w-[20%] mx-auto gap-3">
+        <div className="flex flex-col gap-0.5 justify-between items-center max-w-[20%] ">
           <CurrencyFlag idNumber={1} />
 
-          <ToggleCurrencyButton />
+          {loading ? <LoadingIcon /> : <ToggleCurrencyButton />}
 
           <CurrencyFlag idNumber={2} />
         </div>
 
         <CurrencyContainer idNumber={2} />
       </div>
+
+      <DateInput />
     </div>
   );
-}
-
-async function getCurrencies() {
-  const currenciesPath = process.env.NEXT_PUBLIC_currenciesPath!;
-  const data = await fetch(currenciesPath);
-  const currencies: Record<string, CurrencyWithFlags> = {};
-  const currenciesArray = (await data.json()) as CurrencyWithFlags[];
-
-  currenciesArray.forEach((val) => {
-    currencies[val.code.toLowerCase()] = val;
-  });
-
-  return currencies;
 }
