@@ -2,14 +2,12 @@
 
 ![Home page screenshot](/public/images/HomePageScreenshot.png)
 
-- download the project
+## How can you can i run it?
+
+- Download the project
+- Open the terminal in the project folder and execute the commands below
 
 ```
 npm i
 npm run dev
 ```
-
-### TODO
-
-- add a date option
-- write an actual README file
