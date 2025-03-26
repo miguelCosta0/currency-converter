@@ -6,13 +6,14 @@ import {
   setExchange,
   setExchangeDate,
 } from '@/lib/features/exchange/exchangeSlice';
-import getDateToday from '@/utils/getDateToday';
 import fetchExchange from '@/data/fetchExchange';
+import getDateToday from '@/utils/getDateToday';
 
 export default function DateInput() {
   const dispatch = useAppDispatch();
   const { currency1, currency2 } = useAppSelector((state) => state.currencies);
   const date = useAppSelector((state) => state.exchange.date);
+  const dateToday = getDateToday();
 
   return (
     <div className="mx-auto my-8 w-fit">
@@ -21,7 +22,7 @@ export default function DateInput() {
         type="date"
         value={date}
         min="2024-03-02"
-        max={getDateToday()}
+        max={dateToday}
         onChange={handleDateChange}
       />
     </div>
@@ -29,6 +30,9 @@ export default function DateInput() {
 
   async function handleDateChange(e: ChangeEvent<HTMLInputElement>) {
     const newDate = e.target.value;
+
+    if (!newDate || newDate > dateToday) return;
+
     dispatch(setExchangeDate(newDate));
 
     if (!(currency1.code && currency2.code)) return;
