@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { setLoading } from '@/lib/features/loading/loading';
 import { setAmountOfCurrency } from '@/lib/features/currencies/currenciesSlice';
@@ -13,7 +13,9 @@ export default function DateInput() {
   const dispatch = useAppDispatch();
   const { currency1, currency2 } = useAppSelector((state) => state.currencies);
   const date = useAppSelector((state) => state.exchange.date);
-  const dateToday = getDateToday();
+  const [dateToday, setDateToday] = useState(getDateToday());
+  updateDateToday();
+  // const dateToday = getDateToday();
 
   return (
     <div className="mx-auto my-8 w-fit">
@@ -55,5 +57,14 @@ export default function DateInput() {
         exchange: newExchange,
       })
     );
+  }
+
+  function updateDateToday(): void {
+    setInterval(() => {
+      const newDate = getDateToday();
+      if (dateToday !== newDate) {
+        setDateToday(newDate);
+      }
+    }, 30 * 1000);
   }
 }
