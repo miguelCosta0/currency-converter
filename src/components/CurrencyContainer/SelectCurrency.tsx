@@ -16,7 +16,7 @@ type SelectCurrencyProps = {
 export default function SelectCurrency({ idNumber }: SelectCurrencyProps) {
   const dispatch = useAppDispatch();
   const { currency1, currency2 } = useAppSelector((state) => state.currencies);
-  const date = useAppSelector((state) => state.exchange.date);
+  const { date } = useAppSelector((state) => state.exchange);
   const { currencies: allCurrencies } = useAppSelector(
     (state) => state.allCurrencies
   );

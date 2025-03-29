@@ -12,10 +12,10 @@ import getDateToday from '@/utils/getDateToday';
 export default function DateInput() {
   const dispatch = useAppDispatch();
   const { currency1, currency2 } = useAppSelector((state) => state.currencies);
-  const date = useAppSelector((state) => state.exchange.date);
+  const { date } = useAppSelector((state) => state.exchange);
   const [dateToday, setDateToday] = useState(getDateToday());
+
   updateDateToday();
-  // const dateToday = getDateToday();
 
   return (
     <div className="mx-auto my-8 w-fit">
@@ -64,6 +64,10 @@ export default function DateInput() {
       const newDate = getDateToday();
       if (dateToday !== newDate) {
         setDateToday(newDate);
+        const dateInput = document.querySelector(
+          'input[type="date"]'
+        ) as HTMLInputElement;
+        dateInput.max = newDate;
       }
     }, 30 * 1000);
   }
