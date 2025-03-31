@@ -67,7 +67,7 @@ export default function DateInput() {
         const dateInput = document.querySelector(
           'input[type="date"]'
         ) as HTMLInputElement;
-        dateInput.max = newDate;
+        dateInput.setAttribute('max', newDate);
       }
     }, 30 * 1000);
   }
