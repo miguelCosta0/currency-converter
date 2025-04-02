@@ -23,7 +23,8 @@ export const exchangeSlice = createSlice({
   initialState: initialState,
   reducers: {
     setExchange: (state, action: SetExchangePayload) => {
-      state.exchange = action.payload.newExchange;
+      const newExchange = action.payload.newExchange;
+      if (newExchange) state.exchange = newExchange;
     },
     setExchangeDate: (state, action: SetExchangeDatePayload) => {
       state.date = action.payload;

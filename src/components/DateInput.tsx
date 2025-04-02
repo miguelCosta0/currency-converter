@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { setLoading } from '@/lib/features/loading/loading';
 import { setAmountOfCurrency } from '@/lib/features/currencies/currenciesSlice';
@@ -15,7 +15,17 @@ export default function DateInput() {
   const { date } = useAppSelector((state) => state.exchange);
   const [dateToday, setDateToday] = useState(getDateToday());
 
-  updateDateToday();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newDate = getDateToday();
+      if (dateToday !== newDate) {
+        setDateToday(newDate);
+      }
+    }, 30 * 1000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="mx-auto my-8 w-fit">
@@ -57,18 +67,5 @@ export default function DateInput() {
         exchange: newExchange,
       })
     );
-  }
-
-  function updateDateToday(): void {
-    setInterval(() => {
-      const newDate = getDateToday();
-      if (dateToday !== newDate) {
-        setDateToday(newDate);
-        const dateInput = document.querySelector(
-          'input[type="date"]'
-        ) as HTMLInputElement;
-        dateInput.setAttribute('max', newDate);
-      }
-    }, 30 * 1000);
   }
 }
