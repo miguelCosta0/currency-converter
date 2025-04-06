@@ -17,14 +17,10 @@ export default function DateInput() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newDate = getDateToday();
-      if (dateToday !== newDate) {
-        setDateToday(newDate);
-      }
+      setDateToday(getDateToday());
     }, 30 * 1000);
 
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -41,9 +37,11 @@ export default function DateInput() {
   );
 
   async function handleDateChange(e: ChangeEvent<HTMLInputElement>) {
-    const newDate = e.target.value;
+    let newDate = e.target.value;
 
-    if (!newDate || newDate > dateToday) return;
+    if (!newDate) return;
+
+    if (newDate > dateToday) newDate = dateToday;
 
     dispatch(setExchangeDate(newDate));
 
