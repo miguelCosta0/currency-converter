@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { setLoading } from '@/lib/features/loading/loading';
 import { setAmountOfCurrency } from '@/lib/features/currencies/currenciesSlice';
@@ -13,15 +13,6 @@ export default function DateInput() {
   const dispatch = useAppDispatch();
   const { currency1, currency2 } = useAppSelector((state) => state.currencies);
   const { date } = useAppSelector((state) => state.exchange);
-  const [dateToday, setDateToday] = useState(getDateToday());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDateToday(getDateToday());
-    }, 30 * 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="mx-auto my-8 w-fit">
@@ -30,7 +21,6 @@ export default function DateInput() {
         type="date"
         value={date}
         min="2024-03-02"
-        max={dateToday}
         onChange={handleDateChange}
       />
     </div>
@@ -38,10 +28,9 @@ export default function DateInput() {
 
   async function handleDateChange(e: ChangeEvent<HTMLInputElement>) {
     let newDate = e.target.value;
+    const dateToday = getDateToday();
 
-    if (!newDate) return;
-
-    if (newDate > dateToday) newDate = dateToday;
+    if (!newDate || newDate > dateToday) newDate = dateToday;
 
     dispatch(setExchangeDate(newDate));
 
