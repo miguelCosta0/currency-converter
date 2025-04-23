@@ -1,6 +1,6 @@
 # Currency Converter
 
-![Home page screenshot](/public/images/HomePageScreenshot.png)
+![Home page screenshot](https://i.imgur.com/VEiEyRy.png)
 
 ## How can i run it?
 
